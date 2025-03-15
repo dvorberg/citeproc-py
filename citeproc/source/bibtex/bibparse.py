@@ -4,9 +4,9 @@
 
 class BibTeXEntry(dict):
     def __init__(self, document_type, attributes):
-        super(BibTeXEntry, self).__init__(attributes)
+        a = dict( [(k,v) for (k,v) in attributes.items() if v.strip() != ""] )
+        super(BibTeXEntry, self).__init__(a)
         self.document_type = document_type
-
 
 class BibTeXDecodeError(Exception):
     """Exception raised when the encoding passed to BibTeXParser cannot decode
