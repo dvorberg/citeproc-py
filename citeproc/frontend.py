@@ -52,8 +52,9 @@ class CitationStylesStyle(CitationStylesXML):
         try:
             super(CitationStylesStyle, self).__init__(
                 style, validate=validate)
-        except IOError:
-            raise ValueError("'{}' is not a known style".format(style))
+        except IOError as ex:
+            raise ValueError("'{}' is not a known style ({})".format(
+                style, repr(ex)))
         if locale is None:
             locale = self.root.get('default-locale', 'en-US')
         self.root.set_locale_list(locale, validate=validate)
