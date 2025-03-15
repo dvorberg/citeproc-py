@@ -144,7 +144,11 @@ class BibTeX(BibliographySource):
             if end_len < begin_len:
                 end_year = begin_year[:begin_len - end_len] + end_year
         else:
-            begin_year = end_year = int(year_str)
+            try:
+                begin_year = end_year = int(year_str)
+            except ValueError:
+                raise SyntaxError("Cannot parse year: " + repr(year_str))
+
         return begin_year, end_year
 
     MONTHS = ('jan', 'feb', 'mar', 'apr', 'may', 'jun',
@@ -228,6 +232,8 @@ class BibTeX(BibliographySource):
         return csl_authors
 
     def create_reference(self, key, bibtex_entry):
+
+
         csl_type = self.types[bibtex_entry.document_type]
         csl_fields = self._bibtex_to_csl(bibtex_entry)
         csl_date = self._bibtex_to_csl_date(bibtex_entry)
